@@ -13,11 +13,11 @@ import java.util.List;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer>, JpaSpecificationExecutor<Account>  {
-    Optional<Account> findByName(String name);
-
-    static Specification<Account> filterByName(String name) {
-        return (root, cq, cb) -> cb.like(root.get("name"), "%" + name + "%");
-    }
+//    Optional<Account> findByName(String name);
+//
+//    static Specification<Account> filterByName(String name) {
+//        return (root, cq, cb) -> cb.like(root.get("name"), "%" + name + "%");
+//    }
 
     @Query("SELECT a FROM Account a WHERE a.username = :username AND a.password = :password AND a.status = false")
     Account findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
