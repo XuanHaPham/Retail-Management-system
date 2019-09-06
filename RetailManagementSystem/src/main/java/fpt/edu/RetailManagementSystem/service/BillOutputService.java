@@ -6,7 +6,7 @@ import fpt.edu.RetailManagementSystem.service.dto.BillOutputDetailDTO;
 import java.util.List;
 
 public interface BillOutputService {
-    Boolean create(List<BillOutputDetailDTO> billDetailDTOS, Integer accountID);
+    Boolean create(List<BillOutputDetailDTO> billDetailDTOS, Integer accountID, Integer customerID);
     List<BillOutputDTO> getAllBill();
     List<BillOutputDetailDTO> getAllProductOfBill(Integer billID);
     Boolean updateStatus(Integer id);
