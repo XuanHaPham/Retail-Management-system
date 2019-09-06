@@ -56,6 +56,7 @@ public class BillInputServiceImpl implements BillInputService {
             billDetail.setQuantity(b.getQuantity());
             billDetail.setProductID(b.getProductID());
             billDetail.setBillID(bill.getId());
+            billDetail.setUnit(b.getUnit());
             billInputDetailRepository.save(billDetail);
         }
         return true;

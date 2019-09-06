@@ -4,6 +4,9 @@ public class BillOutputDetailDTO {
     private Integer id;
     private Integer billID;
     private Integer productID;
+    private String productName;
+    private float price;
+    private String code;
     private Integer quantity;
     private String unit;
     private Boolean status;
@@ -54,5 +57,29 @@ public class BillOutputDetailDTO {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

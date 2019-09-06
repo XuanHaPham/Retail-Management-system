@@ -11,22 +11,22 @@ import java.util.Map;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Component
-@RequestMapping("/bills")
+@RequestMapping("/billsInput")
 public interface BillInputApi {
-    @ApiOperation(tags = {"Bill",}, notes = "", value = "Create new Bill")
+    @ApiOperation(tags = {"Bill Input",}, notes = "", value = "Create new Bill")
     @PostMapping("{accountID}")
     ResponseEntity<Map<String, Boolean>> create(@RequestBody List<BillInputDetailDTO> billDetailDTO,
                                                 @PathVariable Integer accountID);
 
-    @ApiOperation(tags = {"Bill",}, notes = "", value = "Get All Bill")
+    @ApiOperation(tags = {"Bill Input",}, notes = "", value = "Get All Bill")
     @GetMapping("")
     ResponseEntity<List<BillInputDTO>> getAllBill();
 
-    @ApiOperation(tags = {"Bill",}, notes = "", value = "get all product in Bill")
+    @ApiOperation(tags = {"Bill Input",}, notes = "", value = "get all product in Bill")
     @GetMapping("{billID}")
     ResponseEntity<List<BillInputDetailDTO>> getAllProductOfBill(@PathVariable Integer billID);
 
-    @ApiOperation(tags = {"Bill",}, notes = "", value = "Update status of bill")
+    @ApiOperation(tags = {"Bill Input",}, notes = "", value = "Update status of bill")
     @PutMapping("/updateBillStatus/{id}")
     ResponseEntity<Map<String, Boolean>> updateBillStatus(@PathVariable Integer id);
 }
