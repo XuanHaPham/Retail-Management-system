@@ -15,6 +15,8 @@ public class BillInput {
     @Column(name = "account_id")
     private Integer accountID;
 
+    @Column(name = "supplier")
+    private Integer supplier;
 
     @Column(name = "code")
     private String code;
@@ -27,6 +29,9 @@ public class BillInput {
 
     @Column(name = "time_created")
     private Date timeCreated;
+
+    @Column(name = "is_paid")
+    private Boolean isPaid;
 
     @Column(name = "status")
     private Boolean status;
@@ -85,5 +90,21 @@ public class BillInput {
 
     public void setTax(float tax) {
         this.tax = tax;
+    }
+
+    public Integer getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Integer supplier) {
+        this.supplier = supplier;
+    }
+
+    public Boolean getIsPaid() {
+        return isPaid;
+    }
+
+    public void setIsPaid(Boolean isPaid) {
+        this.isPaid = isPaid;
     }
 }

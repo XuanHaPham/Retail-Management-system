@@ -15,6 +15,7 @@ import org.springframework.util.ObjectUtils;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,7 @@ public class PaymentBillServiceImpl implements PaymentBillService {
     @Override
     public Boolean deleteByID(Integer id){
         Optional.ofNullable(paymentBillRepository.findById(id)).orElseThrow(() ->new EntityNotFoundException());
-        paymentBillRepository.deleteByID(id, true);
+        paymentBillRepository.deleteByID(id, false);
         return true;
     }
 
@@ -61,6 +62,8 @@ public class PaymentBillServiceImpl implements PaymentBillService {
     public PaymentBillDTO insert(PaymentBillDTO paymentBillDTO){
         ModelMapper modelMapper = new ModelMapper();
         PaymentBill paymentBill = modelMapper.map(paymentBillDTO, PaymentBill.class);
+        paymentBill.setStatus(true);
+        paymentBill.setDate(new Date());
         paymentBill = paymentBillRepository.save(paymentBill);
         PaymentBillDTO dto = modelMapper.map(paymentBill, PaymentBillDTO.class);
         return dto;

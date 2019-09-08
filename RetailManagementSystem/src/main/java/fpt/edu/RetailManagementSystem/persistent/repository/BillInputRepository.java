@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface BillInputRepository extends JpaRepository<BillInput, Integer> {
-    @Query("SELECT b FROM BillInput b")
+    @Query("SELECT b FROM BillInput b WHERE b.status = true ")
     List<BillInput> findAllByIsDelete();
 
     @Query("SELECT b FROM BillInput b WHERE b.id = :id")
@@ -20,5 +20,9 @@ public interface BillInputRepository extends JpaRepository<BillInput, Integer> {
     @Query("UPDATE BillInput b SET b.status = :status WHERE b.id = :id")
     @Modifying
     void deleteByID(@Param("id") Integer id, @Param("status") Boolean status);
+
+    @Query("UPDATE BillInput b SET b.isPaid = :isPaid WHERE b.id = :id")
+    @Modifying
+    void updateIsPaid(@Param("id") Integer id, @Param("isPaid") Boolean isPaid);
 }
 

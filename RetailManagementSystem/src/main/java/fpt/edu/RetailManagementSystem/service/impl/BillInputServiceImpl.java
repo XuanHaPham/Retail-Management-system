@@ -2,6 +2,7 @@ package fpt.edu.RetailManagementSystem.service.impl;
 
 import fpt.edu.RetailManagementSystem.persistent.entity.BillInput;
 import fpt.edu.RetailManagementSystem.persistent.entity.BillInputDetail;
+import fpt.edu.RetailManagementSystem.persistent.entity.Product;
 import fpt.edu.RetailManagementSystem.persistent.repository.AccountRepository;
 import fpt.edu.RetailManagementSystem.persistent.repository.BillInputDetailRepository;
 import fpt.edu.RetailManagementSystem.persistent.repository.BillInputRepository;
@@ -36,7 +37,7 @@ public class BillInputServiceImpl implements BillInputService {
     }
 
     @Override
-    public Boolean create(List<BillInputDetailDTO> billInputDetailDTOS, Integer accountID){
+    public Boolean create(List<BillInputDetailDTO> billInputDetailDTOS, String code, Integer accountID, float tax, Integer supplier){
         float total = 0;
         for (BillInputDetailDTO b : billInputDetailDTOS) {
             float sum = productRepository.findByID(b.getProductID()).getPrice()*b.getQuantity();
@@ -44,12 +45,15 @@ public class BillInputServiceImpl implements BillInputService {
         }
         BillInput bill = new BillInput();
         bill.setTimeCreated(new Date());
-        bill.setTotal(total);
-        bill.setStatus(false);
+        bill.setTotal(total* tax);
+        bill.setStatus(true);
+        bill.setCode(code);
         bill.setAccountID(accountID);
+        bill.setIsPaid(false);
+        bill.setSupplier(supplier);
         billInputRepository.save(bill);
         for (BillInputDetailDTO b : billInputDetailDTOS) {
-            int newQuantiTY = productRepository.findByID(b.getProductID()).getQuantity() + b.getQuantity();
+            int newQuantiTY = productRepository.findByID(b.getProductID()).getQuantity()+b.getQuantity();
             productRepository.updateQuantity(newQuantiTY, b.getProductID());
             BillInputDetail billDetail = new BillInputDetail();
             billDetail.setStatus(true);
@@ -79,10 +83,11 @@ public class BillInputServiceImpl implements BillInputService {
         List<BillInputDetailDTO> billDetailDTOS = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
         for (BillInputDetail b : billDetails ) {
+            Product product = modelMapper.map(productRepository.findByID(b.getProductID()), Product.class);
             BillInputDetailDTO billDetailDTO = modelMapper.map(b, BillInputDetailDTO.class);
-            billDetailDTO.setCode(productRepository.findByID(b.getProductID()).getCode());
-            billDetailDTO.setPrice(productRepository.findByID(b.getProductID()).getPrice());
-            billDetailDTO.setName(productRepository.findByID(b.getProductID()).getName());
+            billDetailDTO.setCode(product.getCode());
+            billDetailDTO.setPrice(product.getPrice());
+            billDetailDTO.setName(product.getName());
             billDetailDTOS.add(billDetailDTO);
         }
         return billDetailDTOS;
@@ -95,6 +100,16 @@ public class BillInputServiceImpl implements BillInputService {
             billInputRepository.deleteByID(id, false);
         else
             billInputRepository.deleteByID(id, true);
+        return true;
+    }
+
+    @Override
+    public Boolean updateIsPaid( Integer id){
+        Optional.ofNullable(billInputRepository.findById(id)).orElseThrow(() ->new EntityNotFoundException());
+        if(billInputRepository.findBillByID(id).getIsPaid())
+            billInputRepository.updateIsPaid(id, false);
+        else
+            billInputRepository.updateIsPaid(id, true);
         return true;
     }
 }

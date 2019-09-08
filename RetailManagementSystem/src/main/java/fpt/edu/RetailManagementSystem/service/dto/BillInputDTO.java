@@ -5,6 +5,8 @@ import java.util.Date;
 public class BillInputDTO {
     private Integer id;
     private Integer accountID;
+    private Integer supplier;
+    private Boolean isPaid;
     private String code;
     private float total;
     private float tax;
@@ -65,5 +67,21 @@ public class BillInputDTO {
 
     public void setTax(float tax) {
         this.tax = tax;
+    }
+
+    public Integer getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Integer supplier) {
+        this.supplier = supplier;
+    }
+
+    public Boolean getPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(Boolean paid) {
+        isPaid = paid;
     }
 }

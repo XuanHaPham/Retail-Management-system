@@ -21,13 +21,17 @@ public class BillInputController implements BillInputApi {
     BillInputService billService;
 
     @Override
-    public ResponseEntity<Map<String, Boolean>> create(@RequestBody List<BillInputDetailDTO> billDetailDTO, @PathVariable Integer accountID){
-        Boolean result = billService.create(billDetailDTO,accountID);
+    public ResponseEntity<Map<String, Boolean>> create(@RequestBody List<BillInputDetailDTO> billDetailDTO,
+                                                       @PathVariable Integer accountID,
+                                                       @PathVariable String code,
+                                                       @PathVariable float tax,
+                                                       @PathVariable Integer supplier){
+        Boolean result = billService.create(billDetailDTO,code,accountID,tax,supplier  );
         Map<String, Boolean> resul = new HashMap<>();
         resul.put("Content", result);
         return ResponseEntity.ok(resul);
     }
-
+//List<BillInputDetailDTO> billDetailDTOS, String code, Integer accountID, float tax, Integer supllier
     @Override
     public ResponseEntity<List<BillInputDTO>> getAllBill(){
         List<BillInputDTO> billDTOS = billService.getAllBill();
@@ -47,4 +51,15 @@ public class BillInputController implements BillInputApi {
         resul.put("Content", result);
         return ResponseEntity.ok(resul);
     }
+
+    @Override
+    public  ResponseEntity<Map<String, Boolean>> updateIsPaid(@PathVariable Integer id){
+        Boolean result = billService.updateIsPaid(id);
+        Map<String, Boolean> resul = new HashMap<>();
+        resul.put("Content", result);
+        return ResponseEntity.ok(resul);
+    }
+
+
+    //updateIsPaid(@PathVariable Integer id);
 }
