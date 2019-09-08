@@ -7,6 +7,7 @@ public class PaymentBillDTO {
     private String code;
     private Date date;
     private String note;
+    private float sender;
     private float total;
     private boolean status;
 
@@ -56,5 +57,13 @@ public class PaymentBillDTO {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public float getSender() {
+        return sender;
+    }
+
+    public void setSender(float sender) {
+        this.sender = sender;
     }
 }

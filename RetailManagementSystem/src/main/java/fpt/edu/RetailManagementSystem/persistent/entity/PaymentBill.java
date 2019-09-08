@@ -24,7 +24,9 @@ public class PaymentBill {
     @Column(name = "total")
     private float total;
 
-    
+    @Column(name = "sender")
+    private float sender;
+
     @Column(name = "status")
     private boolean status;
 
@@ -74,5 +76,13 @@ public class PaymentBill {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public float getSender() {
+        return sender;
+    }
+
+    public void setSender(float sender) {
+        this.sender = sender;
     }
 }

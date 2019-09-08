@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface PaymentBillRepository extends JpaRepository<PaymentBill, Integer> {
-    @Query("SELECT b FROM PaymentBill b")
+    @Query("SELECT b FROM PaymentBill b WHERE b.status = true ")
     List<PaymentBill> findAllByIsDelete();
 
     @Query("SELECT b FROM PaymentBill b WHERE b.id = :id")
