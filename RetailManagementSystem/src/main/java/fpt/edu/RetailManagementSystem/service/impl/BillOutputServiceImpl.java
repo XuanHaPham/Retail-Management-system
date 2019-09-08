@@ -2,6 +2,7 @@ package fpt.edu.RetailManagementSystem.service.impl;
 
 import fpt.edu.RetailManagementSystem.persistent.entity.BillOutput;
 import fpt.edu.RetailManagementSystem.persistent.entity.BillOutputDetail;
+import fpt.edu.RetailManagementSystem.persistent.entity.Product;
 import fpt.edu.RetailManagementSystem.persistent.repository.*;
 import fpt.edu.RetailManagementSystem.service.BillOutputService;
 import fpt.edu.RetailManagementSystem.service.dto.BillOutputDTO;
@@ -36,7 +37,7 @@ public class BillOutputServiceImpl implements BillOutputService {
     }
 
     @Override
-    public Boolean create(List<BillOutputDetailDTO> billInputDetailDTOS, Integer accountID, Integer customerID){
+    public Boolean create(List<BillOutputDetailDTO> billInputDetailDTOS, String code, float tax, Integer seller, Integer customerID){
         float total = 0;
         for (BillOutputDetailDTO b : billInputDetailDTOS) {
             float sum = productRepository.findByID(b.getProductID()).getPrice()*b.getQuantity();
@@ -44,9 +45,11 @@ public class BillOutputServiceImpl implements BillOutputService {
         }
         BillOutput bill = new BillOutput();
         bill.setTimeCreated(new Date());
-        bill.setTotal(total);
+        bill.setTotal(total*tax);
         bill.setStatus(false);
-        bill.setSellerId(accountID);
+        bill.setCode(code);
+        bill.setTax(tax);
+        bill.setSellerId(seller);
         bill.setCustomerId(customerID);
         billOutputRepository.save(bill);
         for (BillOutputDetailDTO b : billInputDetailDTOS) {
@@ -80,10 +83,11 @@ public class BillOutputServiceImpl implements BillOutputService {
         List<BillOutputDetailDTO> billDetailDTOS = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
         for (BillOutputDetail b : billDetails ) {
+            Product product = productRepository.findByID(b.getProductID());
             BillOutputDetailDTO billDetailDTO = modelMapper.map(b, BillOutputDetailDTO.class);
-            billDetailDTO.setCode(productRepository.findByID(b.getProductID()).getCode());
-            billDetailDTO.setPrice(productRepository.findByID(b.getProductID()).getPrice());
-            billDetailDTO.setProductName(productRepository.findByID(b.getProductID()).getName());
+            billDetailDTO.setCode(product.getCode());
+            billDetailDTO.setPrice(product.getPrice());
+            billDetailDTO.setProductName(product.getName());
             billDetailDTO.setQuantity(b.getQuantity());
             billDetailDTO.setUnit(b.getUnit());
             billDetailDTOS.add(billDetailDTO);
@@ -98,6 +102,16 @@ public class BillOutputServiceImpl implements BillOutputService {
             billOutputRepository.deleteByID(id, false);
         else
             billOutputRepository.deleteByID(id, true);
+        return true;
+    }
+
+    @Override
+    public Boolean updateIsPaid( Integer id){
+        Optional.ofNullable(billOutputRepository.findById(id)).orElseThrow(() ->new EntityNotFoundException());
+        if(billOutputRepository.findBillByID(id).getIsPaid())
+            billOutputRepository.updateIsPaid(id, false);
+        else
+            billOutputRepository.updateIsPaid(id, true);
         return true;
     }
 }

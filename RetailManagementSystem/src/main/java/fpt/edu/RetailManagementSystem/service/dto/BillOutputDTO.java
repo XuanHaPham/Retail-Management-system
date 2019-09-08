@@ -8,6 +8,7 @@ public class BillOutputDTO {
     private Integer customerId;
     private String code;
     private float total;
+    private Boolean isPaid;
     private float tax;
     private Date timeCreated;
     private Boolean status;
@@ -74,5 +75,13 @@ public class BillOutputDTO {
 
     public void setTax(float tax) {
         this.tax = tax;
+    }
+
+    public Boolean getPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(Boolean paid) {
+        isPaid = paid;
     }
 }

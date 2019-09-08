@@ -18,7 +18,9 @@ public interface BillOutputApi {
     @ApiOperation(tags = {"Bill Output",}, notes = "", value = "Create new Bill")
     @PostMapping("{accountID}")
     ResponseEntity<Map<String, Boolean>> create(@RequestBody List<BillOutputDetailDTO> billDetailDTO,
-                                                @PathVariable Integer accountID,
+                                                @PathVariable String code,
+                                                @PathVariable float tax,
+                                                @PathVariable Integer seller,
                                                 @PathVariable Integer customerID);
 
     @ApiOperation(tags = {"Bill Output",}, notes = "", value = "Get All Bill")
@@ -32,4 +34,8 @@ public interface BillOutputApi {
     @ApiOperation(tags = {"Bill Output",}, notes = "", value = "Update status of bill")
     @PutMapping("/updateBillStatus/{id}")
     ResponseEntity<Map<String, Boolean>> updateBillStatus(@PathVariable Integer id);
+
+    @ApiOperation(tags = {"Bill Output",}, notes = "", value = "Update isPaid of bill")
+    @PutMapping("/updateIsPaid/{id}")
+    ResponseEntity<Map<String, Boolean>> updateIsPaid(@PathVariable Integer id);
 }

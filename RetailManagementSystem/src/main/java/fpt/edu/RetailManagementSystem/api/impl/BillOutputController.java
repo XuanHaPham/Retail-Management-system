@@ -18,10 +18,14 @@ public class BillOutputController implements BillOutputApi {
 
     @Autowired
     BillOutputService billService;
-
+//String code, float tax, Integer seller,
     @Override
-    public ResponseEntity<Map<String, Boolean>> create(@RequestBody List<BillOutputDetailDTO> billDetailDTO, @PathVariable Integer accountID,@PathVariable Integer customerID){
-        Boolean result = billService.create(billDetailDTO,accountID, customerID);
+    public ResponseEntity<Map<String, Boolean>> create(@RequestBody List<BillOutputDetailDTO> billDetailDTO,
+                                                       @PathVariable String code,
+                                                       @PathVariable float tax,
+                                                       @PathVariable Integer seller,
+                                                       @PathVariable Integer customerID){
+        Boolean result = billService.create(billDetailDTO, code, tax, seller, customerID);
         Map<String, Boolean> resul = new HashMap<>();
         resul.put("Content", result);
         return ResponseEntity.ok(resul);
@@ -42,6 +46,14 @@ public class BillOutputController implements BillOutputApi {
     @Override
     public  ResponseEntity<Map<String, Boolean>> updateBillStatus(@PathVariable Integer id){
         Boolean result = billService.updateStatus(id);
+        Map<String, Boolean> resul = new HashMap<>();
+        resul.put("Content", result);
+        return ResponseEntity.ok(resul);
+    }
+
+    @Override
+    public  ResponseEntity<Map<String, Boolean>> updateIsPaid(@PathVariable Integer id){
+        Boolean result = billService.updateIsPaid(id);
         Map<String, Boolean> resul = new HashMap<>();
         resul.put("Content", result);
         return ResponseEntity.ok(resul);

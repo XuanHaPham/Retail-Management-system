@@ -24,6 +24,9 @@ public class BillOutput {
     @Column(name = "total")
     private float total;
 
+    @Column(name = "is_paid")
+    private  Boolean isPaid;
+
     @Column(name = "tax")
     private float tax;
 
@@ -95,5 +98,13 @@ public class BillOutput {
 
     public void setTax(float tax) {
         this.tax = tax;
+    }
+
+    public Boolean getIsPaid() {
+        return isPaid;
+    }
+
+    public void setIsPaid(Boolean paid) {
+        isPaid = paid;
     }
 }

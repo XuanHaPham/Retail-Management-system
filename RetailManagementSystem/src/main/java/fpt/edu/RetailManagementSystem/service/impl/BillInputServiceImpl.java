@@ -48,6 +48,7 @@ public class BillInputServiceImpl implements BillInputService {
         bill.setTotal(total* tax);
         bill.setStatus(true);
         bill.setCode(code);
+        bill.setTax(tax);
         bill.setAccountID(accountID);
         bill.setIsPaid(false);
         bill.setSupplier(supplier);
