@@ -24,6 +24,7 @@ public class PaymentBill {
     @Column(name = "total")
     private float total;
 
+    
     @Column(name = "status")
     private boolean status;
 

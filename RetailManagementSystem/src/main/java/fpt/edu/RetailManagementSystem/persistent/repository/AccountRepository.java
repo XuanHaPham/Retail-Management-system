@@ -19,10 +19,10 @@ public interface AccountRepository extends JpaRepository<Account, Integer>, JpaS
 //        return (root, cq, cb) -> cb.like(root.get("name"), "%" + name + "%");
 //    }
 
-    @Query("SELECT a FROM Account a WHERE a.username = :username AND a.password = :password AND a.status = false")
+    @Query("SELECT a FROM Account a WHERE a.username = :username AND a.password = :password AND a.status = true")
     Account findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
-    @Query("SELECT a FROM Account a WHERE a.status = false ")
+    @Query("SELECT a FROM Account a WHERE a.status = true ")
     List<Account> findAllByIsDelete();
 
     @Query("UPDATE Account a SET a.status = false WHERE a.id = :id")

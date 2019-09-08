@@ -1,8 +1,8 @@
-package com.example.demo.api.impl;
+package fpt.edu.RetailManagementSystem.api.impl;
 
-import com.example.demo.api.AnthencationApi;
-import com.example.demo.service.AccountService;
-import com.example.demo.service.dto.AccountDTO;
+import fpt.edu.RetailManagementSystem.api.AnthencationApi;
+import fpt.edu.RetailManagementSystem.service.AccountService;
+import fpt.edu.RetailManagementSystem.service.dto.AccountDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\public",
+    "\\public\\img",
+    "\\public\\img\\avatars",
+    "\\public\\img\\brand",
+    "\\src",
+    "\\src\\assets",
+    "\\src\\views"
+  ],
+  "SelectedNode": "\\src\\views\\EventManagement.vue",
+  "PreviewInSolutionExplorer": false
+}

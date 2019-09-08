@@ -1,6 +1,6 @@
-package com.example.demo.api;
+package fpt.edu.RetailManagementSystem.api;
 
-import com.example.demo.service.dto.AccountDTO;
+import fpt.edu.RetailManagementSystem.service.dto.AccountDTO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
