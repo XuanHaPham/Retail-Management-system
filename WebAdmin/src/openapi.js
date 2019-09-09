@@ -1,4 +1,4 @@
-export const base = 'http://localhost:8080'
+export const base = 'http://localhost:7900'
 
 export const methods = {
     GET: 'GET',
@@ -40,6 +40,7 @@ export function getToken() {
 }
 
 export function setToken(data) {
+    localStorage.setItem('token', data.id);
     localStorage.setItem('id', data.id);
     localStorage.setItem('username', data.username);
     localStorage.setItem('fullName', data.fullName);
