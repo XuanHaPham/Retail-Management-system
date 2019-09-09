@@ -13,6 +13,8 @@ const RoleManagement = () => import('@/views/RoleManagement')
 const OrganizationManagement = () => import('@/views/OrganizationManagement')
 const ProductManagement = () => import('@/views/ProductManagement')
 const BILLINPUTManagement = () => import('@/views/BILLINPUTManagement')
+const CreateBillInput = () => import('@/views/CreateBillInput')
+const CreateBillOutput = () => import('@/views/CreateBillOutput')
 const EventManagement = () => import('@/views/EventManagement')
 const EventTypeManagement = () => import('@/views/EventTypeManagement')
 const NewsManagement = () => import('@/views/NewsManagement')
@@ -120,6 +122,16 @@ export default new Router({
           path: 'billInput',
           name: 'BILLINPUTManagement',
           component: BILLINPUTManagement
+        },
+        {
+          path: 'createBillInput',
+          name: 'CreateBillInput',
+          component: CreateBillInput
+        },
+        {
+          path: 'createBillOutput',
+          name: 'CreateBillOutput',
+          component: CreateBillOutput
         },
         {
           path: 'roles',

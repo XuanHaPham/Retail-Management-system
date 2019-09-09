@@ -6,7 +6,7 @@
     <b-row v-if="!loading" class="animated fadeIn">
       <b-col :lg="12">
         <b-button class="mb-2 mr-2" @click="refresh">Refresh</b-button>
-        <b-button class="mb-2" @click="create" variant="primary">Add new payment bill</b-button>
+        <b-button class="mb-2" @click="create" variant="primary">Add new category</b-button>
       </b-col>
 
       <b-col :lg="current ? viewMembers ? 4 : 6 : 12">
@@ -57,7 +57,7 @@
 <script>
 import cTable from '@/views/base/Table.vue'
 import { Switch as cSwitch } from '@coreui/vue'
-import { openapi, methods, routes, getId } from '@/openapi'
+import { openapi, methods, routes } from '@/openapi'
 
 export default {
   username: 'tables',
@@ -72,9 +72,9 @@ export default {
       fields: [
         {key: 'id', sortable: true},
         {key: 'code', sortable: true},
-        {key: 'note', sortable: true},
+        {key: 'tax', sortable: true},
         {key: 'total', sortable: true},
-        {key: 'date', sortable: true},
+        {key: 'timeCreated', sortable: true},
         {key: 'status'}
       ],
     }
@@ -86,7 +86,7 @@ export default {
     refresh: function() {
       this.loading = true;
       this.current = null;
-      openapi(methods.GET, routes.GETPAYMENT).then(data => {
+      openapi(methods.GET, routes.BILLINPUT).then(data => {
         this.loading = false;
         this.items = data;
       })
@@ -105,7 +105,7 @@ export default {
     },
     // update: function() {
     //   this.detailMessage = 'Updating...';
-    //   openapi(methods.PUT, routes.PAYMENTBILL, this.current).then(data => {
+    //   openapi(methods.PUT, routes.BILLINPUT, this.current).then(data => {
     //     if (data.Message) {
     //       this.detailMessage = data.Message;
     //     } else {
@@ -116,7 +116,7 @@ export default {
     // },
     remove: function() {
       this.detailMessage = 'Removing...';
-      openapi(methods.DELETE, routes.PAYMENTBILL, this.current).then(data => {
+      openapi(methods.PUT, routes.UPDATEINPUTBILL, this.current).then(data => {
         this.detailMessage = 'Removed successfully!';
         this.items = this.items.filter(item => item !== this.current);
         this.current = null;
@@ -128,14 +128,13 @@ export default {
         id: 0,
         Key: '',
         status: true,
-        sender: getId(),
         OrganizationMembers: []
       }
       this.viewMembers = false;
     },
     add: function() {
       this.detailMessage = 'Adding...';
-      openapi(methods.POST, routes.PAYMENTBILL, this.current).then(data => {
+      openapi(methods.POST, routes.BILLINPUT, this.current).then(data => {
         this.detailMessage = 'Added successfully!';
         this.items.push(data);
         this.current = data;

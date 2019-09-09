@@ -41,7 +41,11 @@ export default {
       url: '/billInput',
       icon: 'icon-globe'
     },
-   
+    {
+      name: 'Create Bill Input',
+      url: '/createBillInput',
+      icon: 'icon-flag'
+    },
 
     /* {
       name: 'Events',
@@ -68,7 +72,7 @@ export default {
     }, */
 
     {
-      name: 'BillsOutput',
+      name: 'Bills Output',
       url: '/BillsOutput',
       icon: 'icon-heart'
     },
@@ -77,6 +81,11 @@ export default {
     //   url: '/channel',
     //   icon: 'icon-directions'
     // },
+    {
+      name: 'Create Bill Output',
+      url: '/createBillOutput',
+      icon: 'icon-flag'
+    },
     {
       name: 'PAYMENT BILL',
       url: '/paymentbill',
