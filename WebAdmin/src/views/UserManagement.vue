@@ -47,7 +47,7 @@
 
            <div class="btn-group form-actions animated fadeIn" v-if="!detailMessage && current.id !== 0">
               <!-- <b-button @click="viewMembers = true" type="submit" variant="outline-primary">View Members</b-button> -->
-              <b-button @click="update" type="submit" variant="outline-primary">Update</b-button>
+              <!-- <b-button @click="update" type="submit" variant="outline-primary">Update</b-button> -->
               <b-button @click="remove" type="reset" variant="outline-danger">Remove</b-button>
             </div>
             <div class="form-actions animated fadeIn" v-if="!detailMessage && current.id === 0">
@@ -82,11 +82,8 @@ export default {
         { key: "username", sortable: true },
         { key: "fullName", sortable: true },
         { key: "email", sortable: true },
-        { key: "phoneNumber" },
-        { key: "address" },
-        { key: "dob", sortable: true },
-        { key: "shippingAddress", sortable: true },
-        { key: "Status" },
+        { key: "phoneNumber", sortable: true },
+        { key: "roleName", sortable: true}
       ]
     };
   },
@@ -139,7 +136,16 @@ export default {
         // this.items.push(data);
         this.current = data;
         this.hideSuccess();
-      });}
+      });},
+      remove: function() {
+      this.detailMessage = 'Removing...';
+      openapi(methods.DELETE, routes.USERS, this.current).then(data => {
+        this.detailMessage = 'Removed successfully!';
+        this.items = this.items.filter(item => item !== this.current);
+        this.current = null;
+        this.hideSuccess();
+      });
+    },
   }
 };
 </script>

@@ -1,6 +1,10 @@
 package fpt.edu.RetailManagementSystem.service.impl;
 import fpt.edu.RetailManagementSystem.persistent.entity.Account;
+import fpt.edu.RetailManagementSystem.persistent.entity.AccountRole;
+import fpt.edu.RetailManagementSystem.persistent.entity.Role;
 import fpt.edu.RetailManagementSystem.persistent.repository.AccountRepository;
+import fpt.edu.RetailManagementSystem.persistent.repository.AccountRoleRepository;
+import fpt.edu.RetailManagementSystem.persistent.repository.RoleRepository;
 import fpt.edu.RetailManagementSystem.service.AccountService;
 import fpt.edu.RetailManagementSystem.service.dto.AccountDTO;
 import org.modelmapper.ModelMapper;
@@ -17,10 +21,13 @@ import java.util.Optional;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
+    private final RoleRepository roleRepository;
+    private final AccountRoleRepository accountRoleRepository;
 
-
-    public AccountServiceImpl(AccountRepository accountRepository) {
+    public AccountServiceImpl(AccountRepository accountRepository, RoleRepository roleRepository, AccountRoleRepository accountRoleRepository) {
         this.accountRepository = accountRepository;
+        this.roleRepository = roleRepository;
+        this.accountRoleRepository = accountRoleRepository;
     }
 
 
@@ -40,8 +47,15 @@ public class AccountServiceImpl implements AccountService {
         List<AccountDTO> accountDTOS = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
         for (Account acc : accounts ) {
-            accountDTOS.add(modelMapper.map(acc, AccountDTO.class));
-
+            AccountDTO accountDTO = modelMapper.map(acc, AccountDTO.class);
+            if(accountRoleRepository.getRoleIDByAccountID(acc.getId()) != null)
+            {
+                int roleId = accountRoleRepository.getRoleIDByAccountID(acc.getId());
+                if(!roleRepository.getRoleNameByRoleId(roleId).equals("Admin")){
+                    accountDTO.setRoleName(roleRepository.getRoleNameByRoleId(roleId));
+                    accountDTOS.add(accountDTO);
+                }
+            }
         }
         return accountDTOS;
     }
@@ -58,6 +72,12 @@ public class AccountServiceImpl implements AccountService {
         ModelMapper modelMapper = new ModelMapper();
         Account account = modelMapper.map(accountDTO, Account.class);
         account = accountRepository.save(account);
+        int roleId = roleRepository.getRoleIDByRoleName(accountDTO.getRoleName());
+        AccountRole accountRole = new AccountRole();
+        accountRole.setAccountID(account.getId());
+        accountRole.setRoleID(roleId);
+        accountRole.setStatus(true);
+        accountRoleRepository.save(accountRole);
         AccountDTO dto = modelMapper.map(account, AccountDTO.class);
         return dto;
     }

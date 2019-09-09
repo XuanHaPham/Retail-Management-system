@@ -19,4 +19,10 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Modifying
     void deleteByID(@Param("id") Integer id);
 
+    @Query("select r.id  from Role r WHERE r.name = :name")
+    int getRoleIDByRoleName(@Param("name") String name);
+
+    @Query("select r.name  from Role r WHERE r.id = :id")
+    String getRoleNameByRoleId(@Param("id") Integer id);
+
 }

@@ -15,6 +15,8 @@ public class AccountDTO implements Serializable {
 
     private int phoneNumber;
 
+    private String roleName;
+
     private String address;
 
     private String fullName;
@@ -103,5 +105,13 @@ public class AccountDTO implements Serializable {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }
