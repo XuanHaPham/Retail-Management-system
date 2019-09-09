@@ -7,7 +7,7 @@ public class PaymentBillDTO {
     private String code;
     private Date date;
     private String note;
-    private float sender;
+    private int sender;
     private float total;
     private boolean status;
 
@@ -59,11 +59,11 @@ public class PaymentBillDTO {
         this.status = status;
     }
 
-    public float getSender() {
+    public int getSender() {
         return sender;
     }
 
-    public void setSender(float sender) {
+    public void setSender(int sender) {
         this.sender = sender;
     }
 }
