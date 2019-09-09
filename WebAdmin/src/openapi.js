@@ -40,12 +40,18 @@ export function getToken() {
 }
 
 export function setToken(data) {
-    localStorage.setItem('token', data.id);
+    localStorage.setItem('id', data.id);
     localStorage.setItem('username', data.username);
+    localStorage.setItem('fullName', data.fullName);
+    localStorage.setItem('email', data.email);
 }
 
 export function getUsername() {
     return localStorage.getItem('username');
+}
+
+export function getId() {
+    return localStorage.getItem('id');
 }
 
 export function getAvatar() {
