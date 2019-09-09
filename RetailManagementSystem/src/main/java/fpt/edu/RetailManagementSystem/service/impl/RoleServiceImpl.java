@@ -43,10 +43,12 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDTO insert(RoleDTO roleDTO){
         ModelMapper modelMapper = new ModelMapper();
+        if(roleDTO.getName() != null){
         Role role = modelMapper.map(roleDTO, Role.class);
         role.setStatus(true);
         role = roleRepository.save(role);
         RoleDTO dto = modelMapper.map(role, RoleDTO.class);
-        return dto;
+        return dto;}
+        return null;
     }
 }

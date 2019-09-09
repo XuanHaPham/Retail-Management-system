@@ -28,10 +28,10 @@
                 <b-form-input type="text" v-model="current.name"></b-form-input>
               </b-input-group>
             </b-form-group>
-            <div class="btn-group form-actions animated fadeIn" v-if="!detailMessage && current.id !== ''">
+            <!-- <div class="btn-group form-actions animated fadeIn" v-if="!detailMessage && current.id !== ''">
               <b-button @click="update" type="submit" variant="outline-primary">Update</b-button>
               <b-button @click="remove" type="reset" variant="outline-danger">Remove</b-button> 
-            </div>
+            </div> -->
             <div class="form-actions animated fadeIn" v-if="!detailMessage && current.id === ''">
               <b-button @click="add" type="submit" block variant="outline-primary">Add</b-button>
             </div>

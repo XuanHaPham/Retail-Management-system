@@ -63,6 +63,7 @@ public class PaymentBillServiceImpl implements PaymentBillService {
         ModelMapper modelMapper = new ModelMapper();
         PaymentBill paymentBill = modelMapper.map(paymentBillDTO, PaymentBill.class);
         paymentBill.setStatus(true);
+        paymentBill.setSender(paymentBillDTO.getSender());
         paymentBill.setDate(new Date());
         paymentBill = paymentBillRepository.save(paymentBill);
         PaymentBillDTO dto = modelMapper.map(paymentBill, PaymentBillDTO.class);
