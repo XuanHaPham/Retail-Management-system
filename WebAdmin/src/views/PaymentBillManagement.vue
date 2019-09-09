@@ -128,6 +128,7 @@ export default {
         id: 0,
         Key: '',
         status: true,
+        sender: getId(),
         OrganizationMembers: []
       }
       this.viewMembers = false;
