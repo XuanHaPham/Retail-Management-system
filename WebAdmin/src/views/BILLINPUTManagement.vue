@@ -6,7 +6,7 @@
     <b-row v-if="!loading" class="animated fadeIn">
       <b-col :lg="12">
         <b-button class="mb-2 mr-2" @click="refresh">Refresh</b-button>
-        <b-button class="mb-2" @click="create" variant="primary">Add new category</b-button>
+        <!-- <b-button class="mb-2" @click="create" variant="primary">Add new category</b-button> -->
       </b-col>
 
       <b-col :lg="current ? viewMembers ? 4 : 6 : 12">
