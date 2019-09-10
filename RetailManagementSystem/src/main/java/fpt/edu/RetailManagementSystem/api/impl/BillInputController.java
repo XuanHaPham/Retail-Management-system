@@ -21,12 +21,8 @@ public class BillInputController implements BillInputApi {
     BillInputService billService;
 
     @Override
-    public ResponseEntity<List<BillInputDetailDTO>> create(@RequestBody List<BillInputDetailDTO> billDetailDTO,
-                                                       @RequestParam Integer accountID,
-                                                       @RequestParam String code,
-                                                       @RequestParam float tax,
-                                                       @RequestParam Integer supplier){
-        List<BillInputDetailDTO> result = billService.create(billDetailDTO,code,accountID,tax,supplier  );
+    public ResponseEntity<List<BillInputDetailDTO>> create(@RequestBody BillInputDetailDTO billDetailDTO){
+        List<BillInputDetailDTO> result = billService.create(billDetailDTO  );
         return ResponseEntity.ok(result);
     }
 //List<BillInputDetailDTO> billDetailDTOS, String code, Integer accountID, float tax, Integer supllier
@@ -35,10 +31,17 @@ public class BillInputController implements BillInputApi {
         List<BillInputDTO> billDTOS = billService.getAllBill();
         return ResponseEntity.ok(billDTOS);
     }
+    //ResponseEntity<List<BillInputDetailDTO>> getBillDetailByCode(@PathVariable String code);
 
     @Override
     public ResponseEntity<List<BillInputDetailDTO>> getAllProductOfBill(@PathVariable Integer billID){
         List<BillInputDetailDTO> billDetailDTOS = billService.getAllProductOfBill(billID);
+        return ResponseEntity.ok(billDetailDTOS);
+    }
+
+    @Override
+    public ResponseEntity<List<BillInputDetailDTO>> getBillDetailByCode(@PathVariable String code){
+        List<BillInputDetailDTO> billDetailDTOS = billService.getBillDetailByCode(code);
         return ResponseEntity.ok(billDetailDTOS);
     }
 

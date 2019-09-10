@@ -1,4 +1,4 @@
-export const base = 'http://localhost:8080'
+export const base = 'http://localhost:7900'
 
 export const methods = {
     GET: 'GET',
@@ -23,6 +23,7 @@ export const routes = {
     BILLINPUT: 'billsInput',
     ORDERS: 'bills',
     UPDATEINPUTBILL: '/billsInput/updateBillStatus',
+    GETBILLINPUTDETAIL: '/billsInput/getBillDetailByCode/',
     UPDATEPROFILE: 'Account/bills/updateBillStatus/UpdateProfile',
     CHANGEPASSWORD: 'Account/ChangePassword',
     EVENTS: 'Events',
@@ -94,8 +95,8 @@ export function openapi(method, route, data, params) {
         body = JSON.stringify(data);
     }
     if (params) {
-        // url += `?${urlEncode(params)}`;
-        url+= '/'+params;
+        // url += `/${urlEncode(params)}`;
+        // url+= '/'+params;
     }
     let options = {
         method: method,

@@ -7,7 +7,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface BillInputService {
-    List<BillInputDetailDTO> create(List<BillInputDetailDTO> billDetailDTOS, String code, Integer accountID, float tax, Integer supllier);
+    List<BillInputDetailDTO> create(BillInputDetailDTO billDetailDTOS);
+    List<BillInputDetailDTO> getBillDetailByCode(String code);
     List<BillInputDTO> getAllBill();
     List<BillInputDetailDTO> getAllProductOfBill(Integer billID);
     Boolean updateStatus(Integer id);

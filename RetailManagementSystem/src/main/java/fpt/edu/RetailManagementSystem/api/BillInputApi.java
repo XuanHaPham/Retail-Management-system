@@ -15,11 +15,7 @@ import java.util.Map;
 public interface BillInputApi {
     @ApiOperation(tags = {"Bill Input",}, notes = "", value = "Create new Bill")
     @PostMapping("")
-    ResponseEntity<List<BillInputDetailDTO>> create(@RequestBody List<BillInputDetailDTO> billDetailDTO,
-                                                @RequestParam Integer accountID,
-                                                @RequestParam String code,
-                                                @RequestParam float tax,
-                                                @RequestParam Integer supplier);
+    ResponseEntity<List<BillInputDetailDTO>> create(@RequestBody BillInputDetailDTO billDetailDTO);
 
     @ApiOperation(tags = {"Bill Input",}, notes = "", value = "Get All Bill")
     @GetMapping("")
@@ -28,6 +24,10 @@ public interface BillInputApi {
     @ApiOperation(tags = {"Bill Input",}, notes = "", value = "get all product in Bill")
     @GetMapping("{billID}")
     ResponseEntity<List<BillInputDetailDTO>> getAllProductOfBill(@PathVariable Integer billID);
+
+    @ApiOperation(tags = {"Bill Input",}, notes = "", value = "get all product in Bill")
+    @GetMapping("/getBillDetailByCode/{code}")
+    ResponseEntity<List<BillInputDetailDTO>> getBillDetailByCode(@PathVariable String code);
 
     @ApiOperation(tags = {"Bill Input",}, notes = "", value = "Update status of bill")
     @PutMapping("/updateBillStatus/{id}")

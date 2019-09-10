@@ -37,43 +37,37 @@ public class BillInputServiceImpl implements BillInputService {
     }
 
     @Override
-    public List<BillInputDetailDTO> create(List<BillInputDetailDTO> billInputDetailDTOS, String code, Integer accountID, float tax, Integer supplier){
-        BillInput bill =  billInputRepository.findByCode(code);
-        float total = 0;
-        for (BillInputDetailDTO b : billInputDetailDTOS) {
-            float sum = productRepository.findByID(b.getProductID()).getPrice()*b.getQuantity();
-            total += sum;
-        }
+    public List<BillInputDetailDTO> create(BillInputDetailDTO billDetailDTOS){
+        BillInput bill =  billInputRepository.findByCode(billDetailDTOS.getBillCode());
+            float total = productRepository.findByID(billDetailDTOS.getProductID()).getPrice()*billDetailDTOS.getQuantity();
        if( bill == null){
            bill = new BillInput();
            bill.setTimeCreated(new Date());
-           bill.setTotal(total* tax);
+           bill.setTotal(total* billDetailDTOS.getTax());
            bill.setStatus(true);
-           bill.setCode(code);
-           bill.setTax(tax);
-           bill.setAccountID(accountID);
+           bill.setCode(billDetailDTOS.getBillCode());
+           bill.setTax(billDetailDTOS.getTax());
+           bill.setAccountID(billDetailDTOS.getAccountID());
            bill.setIsPaid(false);
-           bill.setSupplier(supplier);
+           bill.setSupplier(billDetailDTOS.getSupplier());
            billInputRepository.save(bill);
        }else {
            bill.setTotal(bill.getTotal()+ total );
-           bill.setTax(tax);
-           bill.setSupplier(supplier);
-           bill.setAccountID(accountID);
+           bill.setTax(billDetailDTOS.getTax());
+           bill.setSupplier(billDetailDTOS.getSupplier());
+           bill.setAccountID(billDetailDTOS.getAccountID());
            bill = billInputRepository.saveAndFlush(bill);
        }
 
-        for (BillInputDetailDTO b : billInputDetailDTOS) {
-            int newQuantiTY = productRepository.findByID(b.getProductID()).getQuantity()+b.getQuantity();
-            productRepository.updateQuantity(newQuantiTY, b.getProductID());
+            int newQuantiTY = productRepository.findByID(billDetailDTOS.getProductID()).getQuantity()+billDetailDTOS.getQuantity();
+            productRepository.updateQuantity(newQuantiTY, billDetailDTOS.getProductID());
             BillInputDetail billDetail = new BillInputDetail();
             billDetail.setStatus(true);
-            billDetail.setQuantity(b.getQuantity());
-            billDetail.setProductID(b.getProductID());
+            billDetail.setQuantity(billDetailDTOS.getQuantity());
+            billDetail.setProductID(billDetailDTOS.getProductID());
             billDetail.setBillID(bill.getId());
-            billDetail.setUnit(b.getUnit());
+            billDetail.setUnit(billDetailDTOS.getUnit());
             billInputDetailRepository.save(billDetail);
-        }
         List<BillInputDetailDTO> result = getAllProductOfBill(bill.getId());
         return result;
     }
@@ -89,6 +83,14 @@ public class BillInputServiceImpl implements BillInputService {
         }
         return billDTOS;
     }
+
+    @Override
+    public List<BillInputDetailDTO> getBillDetailByCode(String code){
+        BillInput bill =  billInputRepository.findByCode(code);
+        List<BillInputDetailDTO> result = getAllProductOfBill(bill.getId());
+        return result;
+    }
+    //List<BillInputDetailDTO>
     @Override
     public List<BillInputDetailDTO> getAllProductOfBill(Integer billID){
         List<BillInputDetail> billDetails = billInputDetailRepository.findAllByBillID(billID);

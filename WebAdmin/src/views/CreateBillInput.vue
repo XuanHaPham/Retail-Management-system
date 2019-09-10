@@ -10,21 +10,21 @@
       <b-col :lg="4">
           <b-input-group>
                 <b-input-group-prepend><b-input-group-text>Code</b-input-group-text></b-input-group-prepend>
-                <b-form-input type="text" ></b-form-input>
+                <b-form-input type="text" v-model="billCode"></b-form-input>
           </b-input-group>
       </b-col>
       <br/>
       <b-col :lg="4">
           <b-input-group>
                 <b-input-group-prepend><b-input-group-text>Supplier</b-input-group-text></b-input-group-prepend>
-                <b-form-input type="text" ></b-form-input>
+                <b-form-input type="text" v-model="supplier" ></b-form-input>
           </b-input-group>
       </b-col>
       <br/>
       <b-col :lg="4">
           <b-input-group>
                 <b-input-group-prepend><b-input-group-text>Tax</b-input-group-text></b-input-group-prepend>
-                <b-form-input type="text"></b-form-input>
+                <b-form-input type="text" v-model="tax"></b-form-input>
           </b-input-group>
       </b-col>
       <br/>
@@ -51,7 +51,7 @@
                 <b-form-input disabled type="text" v-model="current.productID"></b-form-input>
               </b-input-group>
             </b-form-group>
-            <b-form-group v-for="field in fields" :key="field.key">
+            <b-form-group v-for="field in fields" :key="field.key" v-if="['id', 'code', 'price'].indexOf(field.key) === -1">
               <b-input-group>
                 <b-input-group-prepend><b-input-group-text>{{field.key}}</b-input-group-text></b-input-group-prepend>
                 <b-form-input type="text" v-model="current[field.key]"></b-form-input>
@@ -66,12 +66,12 @@
             <b-form-group>
               <c-switch color="primary" variant="3d" v-model="current.status"/>
             </b-form-group>
-            <div class="btn-group form-actions animated fadeIn" v-if="!detailMessage && current.productID !== 0">
+            <div class="btn-group form-actions animated fadeIn" v-if="!detailMessage && current.productID !== 1">
               <!-- <b-button @click="viewMembers = true" type="submit" variant="outline-primary">View Members</b-button> -->
-              <b-button @click="update" type="submit" variant="outline-primary">Update</b-button>
-              <b-button @click="remove" type="reset" variant="outline-danger">Remove</b-button>
+              <!-- <b-button @click="update" type="submit" variant="outline-primary">Update</b-button>
+              <b-button @click="remove" type="reset" variant="outline-danger">Remove</b-button> -->
             </div>
-            <div class="form-actions animated fadeIn" v-if="!detailMessage && current.productID === 0">
+            <div class="form-actions animated fadeIn">
               <b-button @click="add" type="submit" block variant="outline-primary">Add</b-button>
             </div>
             <div v-if="detailMessage">
@@ -102,21 +102,23 @@ export default {
       loading: true,
       items: [],
       current: null,
+      billCode: 1,
+      tax: null,
+      supplier: null,
       detailMessage: '',
       viewMembers: false,
       fields: [
         {key: 'id', sortable: true},
         {key: 'name', sortable: true},
-        {key: 'description'},
-        // {key: 'timeCreated', sortable: true},
-        {key: 'creator', formatter: id => `User`},
-        {key: 'status'},
+        {key: 'productID', sortable: true},
+        {key: 'quantity'},
+        // {key: 'creator', formatter: id => `User`},
+        {key: 'unit'},
         // {key: 'categoryID', sortable: true},
         // {key: 'size', sortable: true},
         {key: 'code'},
-        {key: 'price', sortable: true},
-        // {key: 'overview'},
-        {key: 'quantity', sortable: true}
+        {key: 'price', sortable: true}
+        // {key: 'overview'}
       ],
     }
   },
@@ -127,10 +129,10 @@ export default {
     refresh: function() {
       this.loading = false;
       this.current = null;
-      // openapi(methods.GET, routes.GETPRODUCTS).then(data => {
-      //   this.loading = false;
-      //   this.items = data;
-      // })
+      openapi(methods.GET, routes.GETBILLINPUTDETAIL+this.billCode).then(data => {
+        this.loading = false;
+        this.items = data;
+      })
     },
     rowClicked: function(product, i) {
       this.current = product;
@@ -166,18 +168,23 @@ export default {
     },
     create: function() {
       this.current = {
-        id: 0,
-        Key: '',
         status: true,
-        OrganizationMembers: []
+        billCode: this.billCode,
+        supplier: this.supplier,
+        tax: this.tax
       }
       this.viewMembers = false;
+      openapi(methods.GET, routes.GETBILLINPUTDETAIL+this.billCode).then(data => {
+        this.loading = false;
+        this.items = data;
+        this.current= data;
+      })
     },
     add: function() {
       this.detailMessage = 'Adding...';
-      openapi(methods.POST, routes.PRODUCTS, this.current).then(data => {
+      openapi(methods.POST, routes.BILLINPUT, this.current).then(data => {
         this.detailMessage = 'Added successfully!';
-        // this.items.push(data);
+        this.items.push(data);
         this.current = data;
         this.hideSuccess();
       });

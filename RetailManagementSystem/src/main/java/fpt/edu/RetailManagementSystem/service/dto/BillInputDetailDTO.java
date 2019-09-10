@@ -1,10 +1,15 @@
 package fpt.edu.RetailManagementSystem.service.dto;
 
 public class BillInputDetailDTO {
+    // //List<BillInputDetailDTO> billInputDetailDTOS, String code, Integer accountID, float tax, Integer supplier
     private Integer id;
     private Integer productID;
     private String name;
-    private String code;
+    private String billCode;
+    private Integer accountID;
+    private float tax;
+    private Integer supplier;
+    private String code;//product
     private  float price;
     private Integer quantity;
     private String unit;
@@ -72,5 +77,37 @@ public class BillInputDetailDTO {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public String getBillCode() {
+        return billCode;
+    }
+
+    public void setBillCode(String billCode) {
+        this.billCode = billCode;
+    }
+
+    public Integer getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(Integer accountID) {
+        this.accountID = accountID;
+    }
+
+    public float getTax() {
+        return tax;
+    }
+
+    public void setTax(float tax) {
+        this.tax = tax;
+    }
+
+    public Integer getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Integer supplier) {
+        this.supplier = supplier;
     }
 }

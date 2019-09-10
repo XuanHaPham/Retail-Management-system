@@ -3,11 +3,12 @@ package fpt.edu.RetailManagementSystem.service.dto;
 import java.util.Date;
 
 public class BillInputDTO {
+    //List<BillInputDetailDTO> billInputDetailDTOS, String code, Integer accountID, float tax, Integer supplier
     private Integer id;
     private Integer accountID;
     private Integer supplier;
     private Boolean isPaid;
-    private String code;
+    private String code; //product
     private float total;
     private float tax;
     private Date timeCreated;
