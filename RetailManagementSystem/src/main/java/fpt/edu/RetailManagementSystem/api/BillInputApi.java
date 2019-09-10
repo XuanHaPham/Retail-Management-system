@@ -15,7 +15,7 @@ import java.util.Map;
 public interface BillInputApi {
     @ApiOperation(tags = {"Bill Input",}, notes = "", value = "Create new Bill")
     @PostMapping("")
-    ResponseEntity<Map<String, Boolean>> create(@RequestBody List<BillInputDetailDTO> billDetailDTO,
+    ResponseEntity<List<BillInputDetailDTO>> create(@RequestBody List<BillInputDetailDTO> billDetailDTO,
                                                 @RequestParam Integer accountID,
                                                 @RequestParam String code,
                                                 @RequestParam float tax,

@@ -21,15 +21,13 @@ public class BillInputController implements BillInputApi {
     BillInputService billService;
 
     @Override
-    public ResponseEntity<Map<String, Boolean>> create(@RequestBody List<BillInputDetailDTO> billDetailDTO,
+    public ResponseEntity<List<BillInputDetailDTO>> create(@RequestBody List<BillInputDetailDTO> billDetailDTO,
                                                        @RequestParam Integer accountID,
                                                        @RequestParam String code,
                                                        @RequestParam float tax,
                                                        @RequestParam Integer supplier){
-        Boolean result = billService.create(billDetailDTO,code,accountID,tax,supplier  );
-        Map<String, Boolean> resul = new HashMap<>();
-        resul.put("Content", result);
-        return ResponseEntity.ok(resul);
+        List<BillInputDetailDTO> result = billService.create(billDetailDTO,code,accountID,tax,supplier  );
+        return ResponseEntity.ok(result);
     }
 //List<BillInputDetailDTO> billDetailDTOS, String code, Integer accountID, float tax, Integer supllier
     @Override

@@ -37,7 +37,7 @@ public class BillInputServiceImpl implements BillInputService {
     }
 
     @Override
-    public Boolean create(List<BillInputDetailDTO> billInputDetailDTOS, String code, Integer accountID, float tax, Integer supplier){
+    public List<BillInputDetailDTO> create(List<BillInputDetailDTO> billInputDetailDTOS, String code, Integer accountID, float tax, Integer supplier){
         BillInput bill =  billInputRepository.findByCode(code);
         float total = 0;
         for (BillInputDetailDTO b : billInputDetailDTOS) {
@@ -45,6 +45,7 @@ public class BillInputServiceImpl implements BillInputService {
             total += sum;
         }
        if( bill == null){
+           bill = new BillInput();
            bill.setTimeCreated(new Date());
            bill.setTotal(total* tax);
            bill.setStatus(true);
@@ -73,7 +74,8 @@ public class BillInputServiceImpl implements BillInputService {
             billDetail.setUnit(b.getUnit());
             billInputDetailRepository.save(billDetail);
         }
-        return true;
+        List<BillInputDetailDTO> result = getAllProductOfBill(bill.getId());
+        return result;
     }
 
     @Override
@@ -89,7 +91,7 @@ public class BillInputServiceImpl implements BillInputService {
     }
     @Override
     public List<BillInputDetailDTO> getAllProductOfBill(Integer billID){
-        List<BillInputDetail> billDetails = billInputDetailRepository.findAllByIsDelete(billID);
+        List<BillInputDetail> billDetails = billInputDetailRepository.findAllByBillID(billID);
         List<BillInputDetailDTO> billDetailDTOS = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
         for (BillInputDetail b : billDetails ) {
