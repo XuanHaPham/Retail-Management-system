@@ -25,4 +25,7 @@ public interface BillOutputRepository extends JpaRepository<BillOutput, Integer>
     @Query("UPDATE BillOutput b SET b.isPaid = :isPaid WHERE b.id = :id")
     @Modifying
     void updateIsPaid(@Param("id") Integer id, @Param("isPaid") Boolean isPaid);
+
+    @Query("SELECT b FROM BillOutput b WHERE b.code = :code")
+    BillOutput findByCode(@Param("code") String code);
 }

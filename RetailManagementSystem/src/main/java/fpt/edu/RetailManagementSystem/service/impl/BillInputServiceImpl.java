@@ -38,21 +38,30 @@ public class BillInputServiceImpl implements BillInputService {
 
     @Override
     public Boolean create(List<BillInputDetailDTO> billInputDetailDTOS, String code, Integer accountID, float tax, Integer supplier){
+        BillInput bill =  billInputRepository.findByCode(code);
         float total = 0;
         for (BillInputDetailDTO b : billInputDetailDTOS) {
             float sum = productRepository.findByID(b.getProductID()).getPrice()*b.getQuantity();
             total += sum;
         }
-        BillInput bill = new BillInput();
-        bill.setTimeCreated(new Date());
-        bill.setTotal(total* tax);
-        bill.setStatus(true);
-        bill.setCode(code);
-        bill.setTax(tax);
-        bill.setAccountID(accountID);
-        bill.setIsPaid(false);
-        bill.setSupplier(supplier);
-        billInputRepository.save(bill);
+       if( bill == null){
+           bill.setTimeCreated(new Date());
+           bill.setTotal(total* tax);
+           bill.setStatus(true);
+           bill.setCode(code);
+           bill.setTax(tax);
+           bill.setAccountID(accountID);
+           bill.setIsPaid(false);
+           bill.setSupplier(supplier);
+           billInputRepository.save(bill);
+       }else {
+           bill.setTotal(bill.getTotal()+ total );
+           bill.setTax(tax);
+           bill.setSupplier(supplier);
+           bill.setAccountID(accountID);
+           bill = billInputRepository.saveAndFlush(bill);
+       }
+
         for (BillInputDetailDTO b : billInputDetailDTOS) {
             int newQuantiTY = productRepository.findByID(b.getProductID()).getQuantity()+b.getQuantity();
             productRepository.updateQuantity(newQuantiTY, b.getProductID());

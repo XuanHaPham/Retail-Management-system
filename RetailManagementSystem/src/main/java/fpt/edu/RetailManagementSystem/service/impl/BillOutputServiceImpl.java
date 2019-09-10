@@ -37,31 +37,42 @@ public class BillOutputServiceImpl implements BillOutputService {
     }
 
     @Override
-    public Boolean create(List<BillOutputDetailDTO> billInputDetailDTOS, String code, float tax, Integer seller, Integer customerID){
+    public Boolean create(List<BillOutputDetailDTO> billOutputDetailDTOS, String code, float tax, Integer seller, Integer customerID){
+        BillOutput bill =  billOutputRepository.findByCode(code);
         float total = 0;
-        for (BillOutputDetailDTO b : billInputDetailDTOS) {
+        for (BillOutputDetailDTO b : billOutputDetailDTOS) {
             float sum = productRepository.findByID(b.getProductID()).getPrice()*b.getQuantity();
             total += sum;
         }
-        BillOutput bill = new BillOutput();
-        bill.setTimeCreated(new Date());
-        bill.setTotal(total*tax);
-        bill.setStatus(false);
-        bill.setCode(code);
-        bill.setTax(tax);
-        bill.setSellerId(seller);
-        bill.setCustomerId(customerID);
-        billOutputRepository.save(bill);
-        for (BillOutputDetailDTO b : billInputDetailDTOS) {
-            int newQuantiTY = productRepository.findByID(b.getProductID()).getQuantity() + b.getQuantity();
-            productRepository.updateQuantity(newQuantiTY, b.getProductID());
-            BillOutputDetail billDetail = new BillOutputDetail();
-            billDetail.setStatus(true);
-            billDetail.setQuantity(b.getQuantity());
-            billDetail.setProductID(b.getProductID());
-            billDetail.setBillID(bill.getId());
-            billDetail.setUnit(b.getUnit());
-            billOutputDetailRepository.save(billDetail);
+        if( bill == null) {
+            bill = new BillOutput();
+            bill.setTimeCreated(new Date());
+            bill.setTotal(total * tax);
+            bill.setStatus(false);
+            bill.setCode(code);
+            bill.setTax(tax);
+            bill.setSellerId(seller);
+            bill.setCustomerId(customerID);
+            billOutputRepository.save(bill);
+        }else {
+            bill.setTotal(bill.getTotal()+ total );
+            bill.setTax(tax);
+            bill.setSellerId(seller);
+            bill.setCustomerId(customerID);
+            bill = billOutputRepository.saveAndFlush(bill);
+        }
+        for (BillOutputDetailDTO b : billOutputDetailDTOS) {
+            int newQuantiTY = productRepository.findByID(b.getProductID()).getQuantity() - b.getQuantity();
+            if(newQuantiTY >= 0) {
+                productRepository.updateQuantity(newQuantiTY, b.getProductID());
+                BillOutputDetail billDetail = new BillOutputDetail();
+                billDetail.setStatus(true);
+                billDetail.setQuantity(b.getQuantity());
+                billDetail.setProductID(b.getProductID());
+                billDetail.setBillID(bill.getId());
+                billDetail.setUnit(b.getUnit());
+                billOutputDetailRepository.save(billDetail);
+            }
         }
         return true;
     }
