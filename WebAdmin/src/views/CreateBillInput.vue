@@ -177,15 +177,15 @@ export default {
       openapi(methods.GET, routes.GETBILLINPUTDETAIL+this.billCode).then(data => {
         this.loading = false;
         this.items = data;
-        this.current= data;
+        // this.current= data;
       })
     },
     add: function() {
       this.detailMessage = 'Adding...';
       openapi(methods.POST, routes.BILLINPUT, this.current).then(data => {
         this.detailMessage = 'Added successfully!';
-        this.items.push(data);
-        this.current = data;
+        // this.items.push(data);
+        // this.current = data;
         this.hideSuccess();
       });
     }
