@@ -18,10 +18,10 @@ public interface BillOutputApi {
     @ApiOperation(tags = {"Bill Output",}, notes = "", value = "Create new Bill")
     @PostMapping("{accountID}")
     ResponseEntity<Map<String, Boolean>> create(@RequestBody List<BillOutputDetailDTO> billDetailDTO,
-                                                @PathVariable String code,
-                                                @PathVariable float tax,
-                                                @PathVariable Integer seller,
-                                                @PathVariable Integer customerID);
+                                                @RequestParam String code,
+                                                @RequestParam float tax,
+                                                @RequestParam Integer seller,
+                                                @RequestParam Integer customerID);
 
     @ApiOperation(tags = {"Bill Output",}, notes = "", value = "Get All Bill")
     @GetMapping("")

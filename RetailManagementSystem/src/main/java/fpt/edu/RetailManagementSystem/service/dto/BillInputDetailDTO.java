@@ -2,14 +2,12 @@ package fpt.edu.RetailManagementSystem.service.dto;
 
 public class BillInputDetailDTO {
     private Integer id;
-    private Integer billID;
     private Integer productID;
     private String name;
     private String code;
     private  float price;
     private Integer quantity;
     private String unit;
-    private Integer creater;
     private Boolean status;
 
     public Integer getId() {
@@ -18,14 +16,6 @@ public class BillInputDetailDTO {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getBillID() {
-        return billID;
-    }
-
-    public void setBillID(Integer billID) {
-        this.billID = billID;
     }
 
     public Integer getProductID() {
@@ -82,13 +72,5 @@ public class BillInputDetailDTO {
 
     public void setPrice(float price) {
         this.price = price;
-    }
-
-    public Integer getCreater() {
-        return creater;
-    }
-
-    public void setCreater(Integer creater) {
-        this.creater = creater;
     }
 }

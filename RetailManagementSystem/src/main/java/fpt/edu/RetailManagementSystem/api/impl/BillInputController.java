@@ -22,10 +22,10 @@ public class BillInputController implements BillInputApi {
 
     @Override
     public ResponseEntity<Map<String, Boolean>> create(@RequestBody List<BillInputDetailDTO> billDetailDTO,
-                                                       @PathVariable Integer accountID,
-                                                       @PathVariable String code,
-                                                       @PathVariable float tax,
-                                                       @PathVariable Integer supplier){
+                                                       @RequestParam Integer accountID,
+                                                       @RequestParam String code,
+                                                       @RequestParam float tax,
+                                                       @RequestParam Integer supplier){
         Boolean result = billService.create(billDetailDTO,code,accountID,tax,supplier  );
         Map<String, Boolean> resul = new HashMap<>();
         resul.put("Content", result);

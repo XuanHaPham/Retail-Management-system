@@ -87,7 +87,7 @@ public class BillInputServiceImpl implements BillInputService {
             Product product = modelMapper.map(productRepository.findByID(b.getProductID()), Product.class);
             BillInputDetailDTO billDetailDTO = modelMapper.map(b, BillInputDetailDTO.class);
             billDetailDTO.setCode(product.getCode());
-            billDetailDTO.setPrice(product.getPrice());
+            billDetailDTO.setPrice(product.getPrice() * b.getQuantity());
             billDetailDTO.setName(product.getName());
             billDetailDTOS.add(billDetailDTO);
         }

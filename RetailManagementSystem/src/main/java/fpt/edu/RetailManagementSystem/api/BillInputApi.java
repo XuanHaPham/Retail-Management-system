@@ -14,12 +14,12 @@ import java.util.Map;
 @RequestMapping("/billsInput")
 public interface BillInputApi {
     @ApiOperation(tags = {"Bill Input",}, notes = "", value = "Create new Bill")
-    @PostMapping("{accountID}")
+    @PostMapping("")
     ResponseEntity<Map<String, Boolean>> create(@RequestBody List<BillInputDetailDTO> billDetailDTO,
-                                                @PathVariable Integer accountID,
-                                                @PathVariable String code,
-                                                @PathVariable float tax,
-                                                @PathVariable Integer supplier);
+                                                @RequestParam Integer accountID,
+                                                @RequestParam String code,
+                                                @RequestParam float tax,
+                                                @RequestParam Integer supplier);
 
     @ApiOperation(tags = {"Bill Input",}, notes = "", value = "Get All Bill")
     @GetMapping("")

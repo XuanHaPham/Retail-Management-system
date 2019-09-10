@@ -21,10 +21,10 @@ public class BillOutputController implements BillOutputApi {
 //String code, float tax, Integer seller,
     @Override
     public ResponseEntity<Map<String, Boolean>> create(@RequestBody List<BillOutputDetailDTO> billDetailDTO,
-                                                       @PathVariable String code,
-                                                       @PathVariable float tax,
-                                                       @PathVariable Integer seller,
-                                                       @PathVariable Integer customerID){
+                                                       @RequestParam String code,
+                                                       @RequestParam float tax,
+                                                       @RequestParam Integer seller,
+                                                       @RequestParam Integer customerID){
         Boolean result = billService.create(billDetailDTO, code, tax, seller, customerID);
         Map<String, Boolean> resul = new HashMap<>();
         resul.put("Content", result);
